@@ -1,2 +1,0 @@
-arr.append(2)
-
