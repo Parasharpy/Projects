@@ -9,7 +9,7 @@ import time
 
 # check if user parameters are valid
 parser = argparse.ArgumentParser(description='Run one DL models on protein dataset.')
-parser.add_argument('model', help='Name of the model to run it on. Must be one of CNN, GRU, LSTM, BILSTM, ABLE, DEEPEC')
+parser.add_argument('model', help='Name of the model to run it on. Must be one of CNN, GRU, LSTM, BILSTM, ABLE')
 parser.add_argument('-e', '--epochs', nargs='?', type=int, default=100, help='Number of epochs for training')
 parser.add_argument('-b', '--batch', nargs='?', type=int, default=128, help='Batch size for training')
 parser.add_argument('-l', '--lr', nargs='?', type=float, default=1e-4, help='Learning rate for Adam optimizer')
@@ -118,8 +118,6 @@ for train_index, test_index in kf.split(X, y):
 				y_resampled = tf.keras.utils.to_categorical(y_resampled) #np_utils.to_categorical is changed to tf.keras.utils.to_categorical
 				
 				all_data_current_fold = [X_resampled, y_resampled, X_val, y_val, X_test, y_test]
-				#with open(CACHED_FOLD_FILE, 'wb') as handle:
-					#pickle.dump(all_data_current_fold, handle)
 				
 				all_data_current_fold = None
 				
