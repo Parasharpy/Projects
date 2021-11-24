@@ -6,4 +6,7 @@ The code for preprocessing (generation of word embeddings / protein vectors usin
 DL models used are CNN, ANN, GRU, LSTM, BILSTM and they can be run by a command of the format:
 > python3 dl_models_run.py GRU
 
-The inputs to the models are two pickle files one contains the protein vector embeddings and the other one contains respective modifications numbered from 0 to 7 as classes. 
+The inputs to the models are two pickle files one contains the protein vector embeddings and the other one contains respective modifications numbered from 0 to 7 as classes. Sample data and input:
+> >P0C1A9_192
+> >SDCRIS
+Where, P0C1A9 is uniprot_id and 192 is residue_id means at 192th postion cysteine is present. SDCRIS is the trimmed sequence from a large protein sequence.
