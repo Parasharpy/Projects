@@ -15,7 +15,7 @@ parser.add_argument('-b', '--batch', nargs='?', type=int, default=128, help='Bat
 parser.add_argument('-l', '--lr', nargs='?', type=float, default=1e-4, help='Learning rate for Adam optimizer')
 args = parser.parse_args()
 
-if args.model not in ["ANN", "CNN", "GRU", "LSTM", "BILSTM", "ABLE", "DEEPEC"]:
+if args.model not in ["ANN", "CNN", "GRU", "LSTM", "BILSTM", "ABLE"]:
 	print("Model", args.model, "is not defined. Please make changes to dl_models.py and this file")
 	exit(0)
 
@@ -34,19 +34,6 @@ from keras import backend as K
 gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
 sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options))
 
-# LIMIT = 3 * 1024
-# gpus = tf.config.experimental.list_physical_devices('GPU')
-# if gpus:
-#     try:
-#         tf.config.experimental.set_virtual_device_configuration(
-#             gpus[0],
-#             [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=LIMIT)])
-#         logical_gpus = tf.config.experimental.list_logical_devices('GPU')
-#         print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
-#     except RuntimeError as e:
-#         # Virtual devices must be set before GPUs have been initialized
-#         print(e)
-
 # import all the neural network models
 from dl_models import get_dl_model 
 
@@ -59,8 +46,8 @@ with open(r'C:\Users\Lenovo\Desktop\ML SOP\ML PROJECT (Debashree maam)\Window Si
 
 
 kf = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
-# SAMPLING_METHODS = ["NONE", "SMOTE", "ADASYN"] # sampling options
-SAMPLING_METHODS = ["NONE", "SMOTE"]
+# SAMPLING_METHODS = ["NONE", "SMOTE", "ADASYN"] # sampling methods
+SAMPLING_METHODS = ["NONE", "SMOTE", "ADASYN"]
 
 if os.path.exists(args.model + '_results.pickle'):
 	with open(args.model + '_results.pickle', 'rb') as f:
@@ -86,7 +73,7 @@ for train_index, test_index in kf.split(X, y):
 			continue
 
 	print("K Fold Cross Validation || Fold #", fold)
-	X_train, X_test = [X[index] for index in train_index], [X[index] for index in test_index] #[X_train[index] for index in indices]
+	X_train, X_test = [X[index] for index in train_index], [X[index] for index in test_index] #vector of vector
 	y_train, y_test = [y[index] for index in train_index], [y[index] for index in test_index]
 	
 	# y_train_dummy = np_utils.to_categorical(y_train, dtype = 'str') #added dtype = 'str'
@@ -108,7 +95,7 @@ for train_index, test_index in kf.split(X, y):
 
 		if sampling_method == "NONE":
 			X_resampled = np.asarray(X_train)
-			y_resampled =  tf.keras.utils.to_categorical(y_train)#np_utils.to_categorical is changed to tf.keras.utils.to_categorical
+			y_resampled =  tf.keras.utils.to_categorical(y_train) #np_utils.to_categorical is changed to tf.keras.utils.to_categorical
 
 
 		else:
@@ -159,7 +146,7 @@ for train_index, test_index in kf.split(X, y):
 		model = get_dl_model(args.model)
 		print(model.summary())
 		opt = tf.keras.optimizers.Adam(learning_rate = args.lr)
-		model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['sensitivity'])
+		model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 		keras_saved_file = "models/" + args.model + "_" + sampling_method + "_" + str(fold) + ".h5"
 
