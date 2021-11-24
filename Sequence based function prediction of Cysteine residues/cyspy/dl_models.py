@@ -61,12 +61,4 @@ def get_dl_model(model_name):
 		out = Dense(9, activation='softmax')(x)
 		model = Model(inp, out)
 
-	elif model_name == "DEEPEC":
-		inp = Input(shape=(3,100))
-		x = Conv1D(128, (3), padding = 'same', activation = 'relu')(inp)
-		x = Flatten()(x)
-		x = Dense(128, activation = 'relu')(x)
-		out = Dense(9, activation='softmax')(x)
-		model = Model(inp, out)
-	
 	return model
