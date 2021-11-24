@@ -38,10 +38,10 @@ sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_opti
 from dl_models import get_dl_model 
 
 # Load Dataset
-with open(r'C:\Users\Lenovo\Desktop\ML SOP\ML PROJECT (Debashree maam)\Window Size 11\X.pickle', 'rb') as infile:
+with open(r'path_to_X.pickle', 'rb') as infile:
 	X = pickle.load(infile)
 
-with open(r'C:\Users\Lenovo\Desktop\ML SOP\ML PROJECT (Debashree maam)\Window Size 11\y_final.pickle', 'rb') as infile:
+with open(r'path_to_y.pickle', 'rb') as infile:
 	y = pickle.load(infile)
 
 
